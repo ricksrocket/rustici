@@ -42,8 +42,11 @@ The client requested a solution to deliver tests with randomized questions and a
 
 ### 2. Randomized Answer Choices
 
-- For each question, the code preserves the original answers' order while randomizing the order of answer choices.
-- This ensures that the correct answers remain consistent.
+- This application randomizes the order of questions and their corresponding answer choices while preserving the association between available answers and their correct answers. This approach ensures that the correct answers remain consistent for each question, making the grading process straightforward.
+
+- Under the hood, the code achieves this by creating a custom mapping that links available answer choices to their respective correct answers. It then shuffles the order of answer choices while maintaining this mapping. As a result, the user experiences a randomized test with shuffled questions AND answer choices, while the integrity of correct answers is retained for grading purposes.
+
+- This functionality provides an engaging and dynamic testing experience for users, enhancing the overall usability of the application.
 
 ### 3. Scalability
 
