@@ -71,6 +71,6 @@ To run this app locally, you need to have Node.js and npm (Node Package Manager)
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/rustici-app.git
+   git clone https://github.com/ricksrocket/rustici.git
    
 2. This repository will self destruct after the first clone (i wish...)
