@@ -50,11 +50,6 @@ The client requested a solution to deliver tests with randomized questions and a
 - The code is designed to handle a large number of tests and questions efficiently.
 - It can support tests with up to 20 questions, each with up to 6 answer choices.
 
-### 4. Maintainability
-
-- The code is well-organized and follows best practices for React development.
-- It's designed to be maintainable by multiple developers from different organizations.
-
 ## Time Complexity Analysis
 
 The key feature, shuffling questions and answer choices, involves the Fisher-Yates Shuffle Algorithm. The time complexity of this algorithm is O(n), where n is the number of elements to be shuffled. In this app, the number of questions and answer choices determines the value of n.
