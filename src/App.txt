@@ -1,0 +1,135 @@
+import React, { useState, useEffect } from "react";
+
+/*
+    INSTRUCTIONS:
+
+    Here's a small problem that a client once asked us to solve as part of a larger project.
+    The client has an existing web-based system for delivering a test containing multiple choice
+    questions to a learner (the relevant parts of which are included on this page). The client
+    asked us to modify this code so that the test questions are delivered in a random order every
+    time a learner attempts the test. Furthermore, the order in which the answers to the questions
+    are presented should also be randomized.
+
+    The existing framework for creating and displaying a test has been provided for you below. Your
+    task is to comprehend the client's code and data structure then implement the `randomizeTest`
+    function to perform the randomization of the question and answer order. Please explain your work
+    and thought process.
+
+    Some background on the project from the client that may affect your solution:
+
+    - There are over 600 of these tests deployed to hundreds of thousands of users
+    - There are never more then 20 questions or so per test, each with no more than 6 answers but the
+      code should be able to handle an arbitrary number of both questions and answers
+    - This code is maintained by several developers in different organizations
+    - The code is only required to work in all modern browsers
+
+    When submitting your response, please rename this file to include your name.
+
+    If you have any questions, please do not hesitate to ask.
+*/
+
+
+const initialQuestions = [
+  {
+    question: "What can you find in Rustici Software's office?",
+    choices: [
+      "Dart Board",
+      "Ping Pong Table",
+      "Cubicles",
+      "Laptops with dual monitors",
+      "TPS reports, ummm yeah",
+    ],
+    answers: [1, 1, 0, 1, 0],
+  },
+  {
+    question:
+      "All of Rustici Software employees are expected to work no more than ____ hours per week.",
+    choices: ["80", "40", "50", "60"],
+    answers: [0, 1, 0, 0],
+  },
+  // Add more questions here...
+];
+
+function App() {
+  const [questions, setQuestions] = useState([]);
+  // const initialChoices = initialQuestions.map((question) => question.choices);
+  // map initialQuestions.choices to choices state
+
+  useEffect(() => {
+    // Set initial questions when the component mounts
+    setQuestions(initialQuestions);
+    // set initial choices when the component mounts by mapping initialQuestions.choice
+  }, []);
+
+  // console.log each time questions state changes
+  useEffect(() => {
+    console.log("questions state", questions);
+  }, [questions]);
+
+  const shuffleQuestions = () => {
+    const shuffledQuestions = shuffleArray(questions);
+
+    const newQuestions = shuffledQuestions.map((shuffledQuestion) => {
+      const originalQuestion = initialQuestions.find(
+        (question) => question.question === shuffledQuestion.question
+      );
+
+      // Create a map-pairing of original choices and their answers
+      const originalChoicesMap = {}; // start with an empty object each iteration
+      originalQuestion.choices.forEach((choice, index) => {
+        originalChoicesMap[choice] = originalQuestion.answers[index];
+        console.log("map", originalChoicesMap); // verify the map preserves the original answers
+      });
+
+      // Shuffle the choices while preserving the original answers order
+      const shuffledChoices = shuffleArray(shuffledQuestion.choices);
+      const newAnswers = shuffledChoices.map(
+        (choice) => originalChoicesMap[choice]
+      );
+
+      return {
+        ...shuffledQuestion,
+        choices: shuffledChoices,
+        answers: newAnswers,
+      };
+    });
+
+    setQuestions(newQuestions);
+  };
+
+  function shuffleArray(array) {
+    console.log('Shuffling array...');
+    // Fisher-Yates Shuffle
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        console.log(`Swapping elements at indices ${i} and ${j}`);
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; // swap
+    }
+    console.log('Shuffle complete.');
+    return newArray;
+}
+
+  return (
+    <div className="App">
+      <h1>Randomized Questions</h1>
+      <button onClick={shuffleQuestions}>Shuffle Questions</button>
+      <ul>
+        {questions.map((questionObj, index) => (
+          <li key={index}>
+            <div className="question">{questionObj.question}</div>
+            <ul>
+              {questionObj.choices.map((choice, choiceIndex) => (
+                <li key={choiceIndex}>
+                  {`${choice}: Correct? ${questionObj.answers[choiceIndex]}`}
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
